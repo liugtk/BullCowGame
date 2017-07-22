@@ -1,9 +1,15 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <map>
+
+
+#define TMap std::map
+
 
 using int32 = int;
 using FString = std::string;
+using FText = std::string;
 
 // define the struct for reture two variable
 struct FBullCowCount {
@@ -35,8 +41,9 @@ public:
 	EWordStates CheckGuessValidity(FString);
 	bool PlayAgain();
 	// Counts bulls & Cows, and increase try number # it assuming valid guess.
-	FBullCowCount SubmitGuess(FString);
+	FBullCowCount SubmitValidGuess(FString);
 	void PrintBullCowCount(FBullCowCount);
+	void PrintGameSummary();
 	
 	//provide a 
 
@@ -46,8 +53,12 @@ public:
 private:
 	int MyCurrentTry;
 	int MyMaxTries = 10;
-	bool IsIsogram(FString);
+	
+	bool bGameIsWon = false;
 	FString MyHiddenWord;
+
+	bool IsIsogram(FString) const;
+	bool IsLowerCase(FString) const;
 
 };
 

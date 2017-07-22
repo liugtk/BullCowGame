@@ -17,7 +17,7 @@ void PrintIntro();
 FText GetValidGuess();
 
 void PlayGame();
-bool AskToPlayAgain();
+
 
 
 
@@ -33,7 +33,7 @@ int32 main(){
 		PrintIntro();
 		PlayGame();
 	} 
-	while (AskToPlayAgain());
+	while ( BCGame.PlayAgain() );
 
 	return	0;
 }
@@ -41,37 +41,24 @@ int32 main(){
 
 
 
-void PlayGame(){
+void PlayGame() {
 
 	BCGame.Reset();
-	// loop for the number of turns asking for guess
-
-	for (int32 i = 0; i < BCGame.GetMaxTries() ; i++) {
-
-		
-		
-		FText Guess = GetValidGuess(); // TODO check for valid guess
-
-		
+	
+	// play the game while there is try remained and the game is not won
+	while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= BCGame.GetMaxTries()  ) {
+		FText Guess = GetValidGuess(); 
 		//submit the valid guess to the game
-		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
-
+		FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
 		//print number of bulls and cows
 		BCGame.PrintBullCowCount(BullCowCount);
-
-
-
 	}
-	// TODO summarize the game
+	// summary the game
+	BCGame.PrintGameSummary();
+
+	return;
 }
 
-bool AskToPlayAgain() {
-	std::cout << "Do you wanna play again? (y/n)\n";
-	FText Response = "";
-	std::getline(std::cin, Response);
-	std::cout << std::endl;
-	return (( (Response[0] == 'y') || (Response[0] == 'Y') ) ? true : false);
-}
 
 
 
@@ -96,8 +83,10 @@ FText GetValidGuess() {
 			break;
 		case EWordStates::Not_Lowcase:
 			std::cout << "Please enter all lowercase.\n";
+			break;
 		default:
 			std::cout << "Valid input accepted\n";
+			break;
 		}
 		std::cout << std::endl;
 	} while (status != EWordStates::OK);
