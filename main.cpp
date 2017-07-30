@@ -8,7 +8,7 @@
 
 #include "FBullCowGame.h"
 
-
+// to make syntax Unreal friendly
 using FText = std::string;
 using int32 = int;
 
@@ -23,7 +23,7 @@ void PlayGame();
 
 
 
-FBullCowGame BCGame;
+FBullCowGame BCGame; //instantiate a new game, which we will keep using it 
 
 
 int32 main(){
@@ -41,7 +41,7 @@ int32 main(){
 
 
 
-void PlayGame() {
+void PlayGame() { // play a single game
 
 	BCGame.Reset();
 	
@@ -66,6 +66,7 @@ FText GetValidGuess() {
 	EWordStates status = EWordStates::Invalid_Status;
 	FText Guess = "";
 	do {
+		std::cout << "Try " << BCGame.GetCurrentTry() << " ";
 		// get a guess from the player
 		std::cout << "Enter your guess: ";
 		
@@ -98,8 +99,15 @@ FText GetValidGuess() {
 void PrintIntro() {
 	// Introduce the game
 	
-	std::cout << "Welcome to Buils and Cows" << std::endl;
+	std::cout << "Welcome to Buils and Cows, a fun game." << std::endl;
+	std::cout << "           }    {         ____" << std::endl;
+	std::cout << "           (o  o)        (o  o)   " << std::endl;
+	std::cout << "   /-------\\  /          \\  /-------\\  " << std::endl;
+	std::cout << "  / | Bull | o              o|  Cow  | \\ " << std::endl;
+	std::cout << " *  | ---- |                 | ----- |  * " << std::endl;
+	std::cout << "    ^      ^                 ^       ^    " << std::endl;
 	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm think of?" << std::endl;
+	std::cout << "Try 1 out of " << BCGame.GetMaxTries() << "tries";
 	std::cout << std::endl;
 	return;
 }
